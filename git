@@ -1,0 +1,2 @@
+True
+{'hello': {0, 2}, 'world': {0, 1}, 'of': {1}, 'python': {1}, 'again': {2}}
