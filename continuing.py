@@ -33,6 +33,7 @@ def words_index_map(strings: list) -> dict:
 
     for i in range(len(strings)):
         for j in strings[i].split():
+
             my_dict[j] = my_dict.get(j, set())
             my_dict[j].add(i)
 
@@ -54,7 +55,7 @@ def clean_file(input_file: str, output_file: str) -> None:
     """программа, которая читает текстовый файл, удаляет из него все пустые строки и строки, состоящие только из пробелов,
      а затем записывает результат в новый файл"""
     with open(input_file, 'r', encoding='utf-8') as file1:
-        without_spaces = list(filter(lambda x: len(x) > 0, [i.lstrip() for i in file1.readlines()]))
+        without_spaces = filter(lambda x: len(x) > 0, [i.lstrip() for i in file1.readlines()])
 
     with open(output_file, 'w', encoding='utf-8') as file2:
         file2.writelines(without_spaces)

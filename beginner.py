@@ -19,19 +19,18 @@ print(reverse_words(s))
 
 def max_subarray_sum(nums: list) -> int:
     """функция, которая принимает список чисел и возвращает максимальную сумму подмассива"""
-    max_sum = 0
+    max_so_far = float("-inf")
     current_sum = 0
 
-    for i in range(len(nums)):
-        current_sum = current_sum + nums[i]
+    for i in nums:
+        current_sum = max(i, current_sum + i)
+        max_so_far = max(max_so_far, current_sum)
 
-        if current_sum < 0:
-            current_sum = 0
+    return max_so_far
 
-        elif current_sum > max_sum:
-            max_sum = current_sum
 
-    return max_sum
+nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+print(max_subarray_sum(nums))
 
 
 nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
