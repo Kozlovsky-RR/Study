@@ -1,4 +1,4 @@
-"""Задача 1: Проверка матрицы на симметричность"""
+"""Задачи для закрепления курса Python для продвинутых."""
 
 
 def is_symmetric(matrix: list) -> bool:
@@ -6,11 +6,11 @@ def is_symmetric(matrix: list) -> bool:
         главной диагонали"""
     n = len(matrix)
 
-
     for i in range(n):
         for j in range(n):
-            if matrix[i][j] != matrix[j][i]:
-                return False
+            if j > i:
+                if matrix[i][j] != matrix[j][i]:
+                    return False
 
     return True
 
@@ -23,22 +23,16 @@ matrix = [
 print(is_symmetric(matrix))
 
 
-"""Задача 2: Словари и множества"""
-
-
 def words_index_map(strings: list) -> dict:
     """функция, которая принимает список строк и возвращает словарь, где ключами являются уникальные слова,
      а значениями — множества индексов строк, в которых эти слова встречаются"""
     my_dict = {}
 
-    for i in range(len(strings)):
-        for j in strings[i].split():
-
-            my_dict[j] = my_dict.get(j, set())
-            my_dict[j].add(i)
+    for index, string in enumerate(strings):
+        for word in string.split():
+            my_dict.setdefault(word, set()).add(index)
 
     return my_dict
-
 
 
 strings = [
@@ -48,8 +42,6 @@ strings = [
 ]
 print(words_index_map(strings))
 
-
-"""Задача 3: Работа с файлами"""
 
 def clean_file(input_file: str, output_file: str) -> None:
     """программа, которая читает текстовый файл, удаляет из него все пустые строки и строки, состоящие только из пробелов,
@@ -64,8 +56,6 @@ def clean_file(input_file: str, output_file: str) -> None:
 input_file = "input.txt"
 output_file = "output.txt"
 clean_file(input_file, output_file)
-
-"""Задача 4: Комплексные числа"""
 
 
 def sum_of_moduli(complex_numbers: list) -> float:

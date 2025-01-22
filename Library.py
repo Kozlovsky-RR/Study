@@ -1,5 +1,5 @@
 class Book:
-    def __init__(self, title, author, year, genre,  pages):
+    def __init__(self, title: str, author: str, year: int, genre: str,  pages: int) -> None:
         self.title = title
         self.author = author
         self.year = year
@@ -7,88 +7,91 @@ class Book:
         self.pages = pages
 
     @property
-    def title(self) :
+    def title(self) -> str:
         return self._title
 
     @title.setter
-    def title(self, value):
+    def title(self, value: str) -> None:
         if isinstance(value, str):
             self._title = value
         else:
             raise ValueError("Название должно быть не пустой строкой")
 
     @property
-    def author(self):
+    def author(self) -> str:
         return self._author
 
     @author.setter
-    def author(self, value):
+    def author(self, value: str):
         if isinstance(value, str):
             self._author = value
         else:
             raise ValueError("Имя автора должно быть строкой")
 
     @property
-    def year(self):
+    def year(self) -> int:
         return self._year
 
     @year.setter
-    def year(self, value):
+    def year(self, value: int):
         if isinstance(value, int) and value >= 0:
             self._year = value
         else:
             raise ValueError("Год должен быть положительным числом")
 
     @property
-    def genre(self):
+    def genre(self) -> str:
         return self._genre
 
     @genre.setter
-    def genre(self, value):
+    def genre(self, value: str):
         if isinstance(value, str):
             self._genre = value
         else:
             raise ValueError("Жанр должен быть строкой")
 
     @property
-    def pages(self):
+    def pages(self) -> int:
         return self._pages
 
     @pages.setter
-    def pages(self, value):
+    def pages(self, value: int):
         if isinstance(value, int) and value >= 0:
             self._pages = value
         else:
             raise ValueError("Страница должна быть положительным числом")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'{self.title}, {self.author}, {self.year}, {self.genre}, {self.pages}'
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'Book({self.title}), Book({self.author}), Book({self.year}), Book({self.genre}), Book({self.pages})'
 
 
 class Library:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.bookshelf = []
 
-    def add_book(self, book) :
+    def add_book(self, book) -> None:
         self.bookshelf.append(book)
 
     def search_by_title(self, title):
+        '''поиск книги по навзанию'''
         for i in self.bookshelf:
             if i.title == title:
                 return i
         return "Книга отсутствует в библиотеке"
 
-    def get_books_by_author(self, author):
+    def get_books_by_author(self, author: str) -> list:
+        '''список всех книг автора'''
         return [i for i in self.bookshelf if i.author == author]
 
-    def get_books_sorted_by_year(self):
+    def get_books_sorted_by_year(self) -> list:
+        '''отсортированый список по году выпуска'''
         return sorted(self.bookshelf, key=lambda x: x.year)
 
-    def remove_book(self, book):
+    def remove_book(self, book: str) -> None:
         list(self.bookshelf).remove(book)
 
 

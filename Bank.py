@@ -1,47 +1,49 @@
 class BankAccount:
-    def __init__(self, number, name, balance):
+    def __init__(self, number: str, name: str, balance: int) -> None:
         self.number = number
         self.name = name
         self.balance = balance
 
-    def deposit(self, value):
+    def deposit(self, value: int) -> None:
+        '''депозит средств'''
         if value > 0:
             self.balance += value
 
-    def withdraw(self, value):
+    def withdraw(self, value: int) -> bool:
+        '''снятие средств со счета'''
         if value > 0 and self.balance - value >= 0:
             self.balance -= value
             return True
         else:
             return False
 
-    def check_balance(self):
+    def check_balance(self) -> int:
         return self.balance
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Номер счета: {self.number}; Имя владельца: {self.name}; Баланс: {self.balance}"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"BankAccount('{self.number}'), BankAccount('{self.name}'), BankAccount('{self.balance}')"
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if isinstance(other, BankAccount):
             return self.number == other.number and self.name == other.name
         return NotImplemented
 
-    def __iter__(self):
+    def __iter__(self) -> tuple:
         yield from (self.number, self.name, self.balance)
 
 
 class BankSystem:
-    def __init__(self):
+    def __init__(self) -> None:
         self.accounts = dict()
 
-    def add_account(self, account):
+    def add_account(self, account: BankAccount) -> None:
         self.accounts[f"account{len(self.accounts) + 1}"] = account
 
-    def transfer(self, number1, number2, value):
-
+    def transfer(self, number1: str, number2: str, value: int) -> None:
+        '''перевод стредств с одного счета на другой'''
         for v in self.accounts.values():
             if number1 in v:
                 if v.withdraw(value) is False:

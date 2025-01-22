@@ -1,5 +1,5 @@
 class FileManager:
-    def __init__(self,filename, mode='r'):
+    def __init__(self, filename: str, mode: str = 'r') -> None:
         self.filename = filename
         self.mode = mode
 
@@ -7,7 +7,7 @@ class FileManager:
         self.file = open(self.filename, self.mode)
         return self.file
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type, exc_val, exc_tb) -> bool:
         if self.file:
             self.file.close()
         if exc_val:

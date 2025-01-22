@@ -1,7 +1,7 @@
 from collections import Counter
 
 
-"""Задача 1: Реверсирование строки"""
+"""Задачи для закрепления курса Python для начинающих."""
 
 
 def reverse_words(s: str) -> str:
@@ -13,8 +13,6 @@ s = "Hello world from Python"
 print(reverse_words(s))
 '''Python from world Hello'''
 
-
-'''Задача 2: Максимальная сумма подмассива'''
 
 
 def max_subarray_sum(nums: list) -> int:
@@ -33,20 +31,12 @@ nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
 print(max_subarray_sum(nums))
 
 
-nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
-print(max_subarray_sum(nums))
-
-'''Задача 3: Частота символов'''
-
-
 def char_frequency(s: str) -> dict:
     return dict(Counter(s))
 
 
 s = "abracadabra"
 print(char_frequency(s))
-
-'''Задача 4: Проверка анаграммы'''
 
 
 def are_anagrams(s1: str, s2: str) -> bool:
