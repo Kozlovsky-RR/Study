@@ -1,9 +1,13 @@
+"""Система для управления зарплат сотрудников компании."""
 class Employee:
     def __init__(self, name: str, surname: str, post: str, salary: int) -> None:
         self.name = name
         self.surname = surname
         self.post = post
-        self.salary = salary
+        if isinstance(salary, int) and salary >= 0:
+            self.salary = salary
+        else:
+            raise TypeError("Зарплата должна быть положительным числом")
 
     def get_bonus(self) -> int:
         return self.salary

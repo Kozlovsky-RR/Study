@@ -1,3 +1,4 @@
+"""Библиотека для управления коллекцией книг."""
 class Book:
     def __init__(self, title: str, author: str, year: int, genre: str,  pages: int) -> None:
         self.title = title
@@ -12,10 +13,8 @@ class Book:
 
     @title.setter
     def title(self, value: str) -> None:
-        if isinstance(value, str):
+        if Book.checking_the_string(value, error="Название должно быть не пустой строкой"):
             self._title = value
-        else:
-            raise ValueError("Название должно быть не пустой строкой")
 
     @property
     def author(self) -> str:
@@ -23,10 +22,8 @@ class Book:
 
     @author.setter
     def author(self, value: str):
-        if isinstance(value, str):
+        if Book.checking_the_string(value, error="Имя автора должно быть строкой"):
             self._author = value
-        else:
-            raise ValueError("Имя автора должно быть строкой")
 
     @property
     def year(self) -> int:
@@ -34,10 +31,8 @@ class Book:
 
     @year.setter
     def year(self, value: int):
-        if isinstance(value, int) and value >= 0:
+        if Book.checking_the_integer(value, error="Год должен быть положительным числом"):
             self._year = value
-        else:
-            raise ValueError("Год должен быть положительным числом")
 
     @property
     def genre(self) -> str:
@@ -45,10 +40,8 @@ class Book:
 
     @genre.setter
     def genre(self, value: str):
-        if isinstance(value, str):
+        if Book.checking_the_string(value, error="Жанр должен быть строкой"):
             self._genre = value
-        else:
-            raise ValueError("Жанр должен быть строкой")
 
     @property
     def pages(self) -> int:
@@ -56,16 +49,29 @@ class Book:
 
     @pages.setter
     def pages(self, value: int):
-        if isinstance(value, int) and value >= 0:
+        if Book.checking_the_integer(value, error="Страница должна быть положительным числом"):
             self._pages = value
+
+    @staticmethod
+    def checking_the_integer(value: int, error: str) -> bool or str:
+        if isinstance(value, int) and value >= 0:
+            return True
         else:
-            raise ValueError("Страница должна быть положительным числом")
+            raise ValueError(error)
+
+    @staticmethod
+    def checking_the_string(value: str, error: str) -> bool or str:
+        if isinstance(value, str):
+            return True
+        else:
+            raise ValueError(error)
 
     def __str__(self) -> str:
         return f'{self.title}, {self.author}, {self.year}, {self.genre}, {self.pages}'
 
     def __repr__(self) -> str:
-        return f'Book({self.title}), Book({self.author}), Book({self.year}), Book({self.genre}), Book({self.pages})'
+        return (f'Book(title={self.title}), Book(author={self.author}), Book(year={self.year}),'
+                f' Book(genre={self.genre}), Book(pages={self.pages})')
 
 
 class Library:
@@ -77,22 +83,31 @@ class Library:
         self.bookshelf.append(book)
 
     def search_by_title(self, title):
-        '''поиск книги по навзанию'''
+        """Поиск книги по навзанию."""
         for i in self.bookshelf:
             if i.title == title:
                 return i
         return "Книга отсутствует в библиотеке"
 
     def get_books_by_author(self, author: str) -> list:
-        '''список всех книг автора'''
+        """Список всех книг автора."""
         return [i for i in self.bookshelf if i.author == author]
 
     def get_books_sorted_by_year(self) -> list:
-        '''отсортированый список по году выпуска'''
+        """Отсортированый список по году выпуска."""
         return sorted(self.bookshelf, key=lambda x: x.year)
 
-    def remove_book(self, book: str) -> None:
-        list(self.bookshelf).remove(book)
+    def remove_book(self, book: str) -> None or str:
+        if book in self.bookshelf:
+            list(self.bookshelf).remove(book)
+        else:
+            return "Книга отсутсвует в библиотеке"
+
+    def __len__(self) -> int:
+        return len(self.bookshelf)
+
+    def __repr__(self):
+        return f"Library({self.bookshelf})"
 
 
 library = Library()

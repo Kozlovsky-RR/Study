@@ -1,20 +1,26 @@
+"""Система для управления банковскими счетамим."""
 class BankAccount:
     def __init__(self, number: str, name: str, balance: int) -> None:
         self.number = number
         self.name = name
-        self.balance = balance
+
+        if isinstance(balance, int) and balance >= 0:
+            self.balance = balance
+        else:
+            raise TypeError("Баланс должен быть положительным числом")
 
     def deposit(self, value: int) -> None:
-        '''депозит средств'''
+        """Депозит средств."""
         if value > 0:
             self.balance += value
 
     def withdraw(self, value: int) -> bool:
-        '''снятие средств со счета'''
+        """Снятие средств со счета."""
         if value > 0 and self.balance - value >= 0:
             self.balance -= value
             return True
         else:
+            print("Снятие средств невозможно")
             return False
 
     def check_balance(self) -> int:
@@ -24,7 +30,8 @@ class BankAccount:
         return f"Номер счета: {self.number}; Имя владельца: {self.name}; Баланс: {self.balance}"
 
     def __repr__(self) -> str:
-        return f"BankAccount('{self.number}'), BankAccount('{self.name}'), BankAccount('{self.balance}')"
+        return (f"BankAccount(number='{self.number}'), BankAccount(name='{self.name}'),"
+                f" BankAccount(balance='{self.balance}')")
 
     def __eq__(self, other) -> bool:
         if isinstance(other, BankAccount):
@@ -40,10 +47,10 @@ class BankSystem:
         self.accounts = dict()
 
     def add_account(self, account: BankAccount) -> None:
-        self.accounts[f"account{len(self.accounts) + 1}"] = account
+        self.accounts[account.number] = account
 
     def transfer(self, number1: str, number2: str, value: int) -> None:
-        '''перевод стредств с одного счета на другой'''
+        """Перевод стредств с одного счета на другой."""
         for v in self.accounts.values():
             if number1 in v:
                 if v.withdraw(value) is False:
@@ -53,13 +60,6 @@ class BankSystem:
                 v.deposit(value)
             else:
                 print("Неверно указан один из номеров счета")
-
-
-
-
-
-
-
 
 
 account1 = BankAccount("12345", "Иван Иванов", 1000)
