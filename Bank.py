@@ -1,6 +1,8 @@
 """Система для управления банковскими счетамим."""
 class BankAccount:
+    """Класс для оздание банковского счета и операциями над ним."""
     def __init__(self, number: str, name: str, balance: int) -> None:
+        """Инициализация банковского счета, и проверка что баланс является положителным числом."""
         self.number = number
         self.name = name
 
@@ -10,7 +12,7 @@ class BankAccount:
             raise TypeError("Баланс должен быть положительным числом")
 
     def deposit(self, value: int) -> None:
-        """Депозит средств."""
+        """Внесение средств на депозит."""
         if value > 0:
             self.balance += value
 
@@ -24,29 +26,37 @@ class BankAccount:
             return False
 
     def check_balance(self) -> int:
+        """Проверка баланса счета."""
         return self.balance
 
     def __str__(self) -> str:
+        """Неформальное представление банковского счета."""
         return f"Номер счета: {self.number}; Имя владельца: {self.name}; Баланс: {self.balance}"
 
     def __repr__(self) -> str:
+        """Формальное представление банковского счета."""
         return (f"BankAccount(number='{self.number}'), BankAccount(name='{self.name}'),"
                 f" BankAccount(balance='{self.balance}')")
 
     def __eq__(self, other) -> bool:
+        """Провека счетов на равенство."""
         if isinstance(other, BankAccount):
             return self.number == other.number and self.name == other.name
         return NotImplemented
 
     def __iter__(self) -> tuple:
+        """Создание итерируемого объекта."""
         yield from (self.number, self.name, self.balance)
 
 
 class BankSystem:
+    """Класс для создания банковской системы, и перевода средств с одного счета на другой."""
     def __init__(self) -> None:
+        """Инициализация банковской системы, где будут храниться банковские аккаунты."""
         self.accounts = dict()
 
     def add_account(self, account: BankAccount) -> None:
+        """Добаление аккаунта в систему."""
         self.accounts[account.number] = account
 
     def transfer(self, number1: str, number2: str, value: int) -> None:
