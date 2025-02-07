@@ -5,11 +5,11 @@ class Employee:
     """Класс для создания сотрудников."""
     def __init__(self, name: str, surname: str, post: str, salary: int) -> None:
         """Инициализация сотрудника. Проверка что зарплата является не отрицательным числом."""
-        self.name = name
-        self.surname = surname
-        self.post = post
+        self.name: str = name
+        self.surname: str = surname
+        self.post: str = post
         if isinstance(salary, int) and salary >= 0:
-            self.salary = salary
+            self.salary: int = salary
         else:
             raise TypeError("Зарплата должна быть положительным числом")
 
@@ -24,9 +24,6 @@ class Employee:
 
 class Manager(Employee):
     """Класс менеджер."""
-    def __init__(self, name: str, surname: str, post: str, salary: int) -> None:
-        """Инициализация сотрудника. Проверка что зарплата является не отрицательным числом."""
-        super().__init__(name, surname, post, salary)
 
     def get_bonus(self) -> int:
         """Метод для вычисление бонуса."""
@@ -35,9 +32,6 @@ class Manager(Employee):
 
 class Developer(Employee):
     """Класс разработчик."""
-    def __init__(self, name: str, surname: str, post: str, salary: int) -> None:
-        """Инициализация сотрудника. Проверка что зарплата является не отрицательным числом."""
-        super().__init__(name, surname, post, salary)
 
     def get_bonus(self) -> int:
         """Метод для вычисление бонуса."""
@@ -46,16 +40,13 @@ class Developer(Employee):
 
 class Designer(Employee):
     """Класс дизайнер."""
-    def __init__(self, name: str, surname: str, post: str, salary: int) -> None:
-        """Инициализация сотрудника. Проверка что зарплата является не отрицательным числом."""
-        super().__init__(name, surname, post, salary)
 
     def get_bonus(self) -> int:
         """Метод для вычисление бонуса."""
         return super().get_bonus() * 2
 
 
-employees = [
+employees: list[Employee] = [
     Manager("Иван", "Иванов", "Менеджер", 100000),
     Developer("Петр", "Петров", "Разработчик", 80000),
     Designer("Анна", "Смирнова", "Дизайнер", 70000)

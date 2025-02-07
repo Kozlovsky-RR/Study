@@ -1,13 +1,18 @@
 """Система для управления банковскими счетамим."""
+
+
+from typing import Union
+
+
 class BankAccount:
-    """Класс для оздание банковского счета и операциями над ним."""
+    """Класс для cоздание банковского счета и операциями над ним."""
     def __init__(self, number: str, name: str, balance: int) -> None:
         """Инициализация банковского счета, и проверка что баланс является положителным числом."""
-        self.number = number
-        self.name = name
+        self.number: str = number
+        self.name: str = name
 
         if isinstance(balance, int) and balance >= 0:
-            self.balance = balance
+            self.balance: int = balance
         else:
             raise TypeError("Баланс должен быть положительным числом")
 
@@ -16,14 +21,13 @@ class BankAccount:
         if value > 0:
             self.balance += value
 
-    def withdraw(self, value: int) -> bool:
+    def withdraw(self, value: int) -> Union[bool, str]:
         """Снятие средств со счета."""
         if value > 0 and self.balance - value >= 0:
             self.balance -= value
             return True
         else:
-            print("Снятие средств невозможно")
-            return False
+            raise ValueError('Превышен лимит')
 
     def check_balance(self) -> int:
         """Проверка баланса счета."""
@@ -35,8 +39,7 @@ class BankAccount:
 
     def __repr__(self) -> str:
         """Формальное представление банковского счета."""
-        return (f"BankAccount(number='{self.number}'), BankAccount(name='{self.name}'),"
-                f" BankAccount(balance='{self.balance}')")
+        return f"BankAccount(number='{self.number}', name='{self.name}', balance={self.balance})"
 
     def __eq__(self, other) -> bool:
         """Провека счетов на равенство."""
@@ -44,7 +47,7 @@ class BankAccount:
             return self.number == other.number and self.name == other.name
         return NotImplemented
 
-    def __iter__(self) -> tuple:
+    def __iter__(self) -> iter:
         """Создание итерируемого объекта."""
         yield from (self.number, self.name, self.balance)
 
@@ -53,28 +56,21 @@ class BankSystem:
     """Класс для создания банковской системы, и перевода средств с одного счета на другой."""
     def __init__(self) -> None:
         """Инициализация банковской системы, где будут храниться банковские аккаунты."""
-        self.accounts = dict()
+        self.accounts: dict = dict()
 
     def add_account(self, account: BankAccount) -> None:
         """Добаление аккаунта в систему."""
         self.accounts[account.number] = account
 
     def transfer(self, number1: str, number2: str, value: int) -> None:
-        """Перевод стредств с одного счета на другой."""
-        for v in self.accounts.values():
-            if number1 in v:
-                if v.withdraw(value) is False:
-                    print("Превышен лимит средств")
-                    break
-            elif number2 in v:
-                v.deposit(value)
-            else:
-                print("Неверно указан один из номеров счета")
+        """Перевод средств с одного счета на другой."""
+        self.accounts[number1].withdraw(value)
+        self.accounts[number2].deposit(value)
 
 
-account1 = BankAccount("12345", "Иван Иванов", 1000)
-account2 = BankAccount("67890", "Петр Петров", 2000)
-bank = BankSystem()
+account1: BankAccount = BankAccount("12345", "Иван Иванов", 1000)
+account2: BankAccount = BankAccount("67890", "Петр Петров", 2000)
+bank: BankSystem = BankSystem()
 bank.add_account(account1)
 bank.add_account(account2)
 print(account1)
@@ -84,5 +80,6 @@ account1.withdraw(100)
 print(account1.check_balance())
 print(account1 != account2)
 print(bank.accounts)
-bank.transfer("12345", "67890", 1098)
+bank.transfer("12345", "67890", 1001)
 print(bank.accounts)
+
