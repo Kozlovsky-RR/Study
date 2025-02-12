@@ -2,21 +2,19 @@
 
 
 from collections import defaultdict
-from typing import Union
 
 
-def is_symmetric(matrix: list[list[int]]) -> Union[bool, str]:
+def is_symmetric(matrix: list[list[int]]) -> bool:
     """Функция, которая принимает на вход квадратную матрицу и проверяет, является ли она симметричной относительно
         главной диагонали."""
     n: int = len(matrix)
     if len(matrix[0]) != n:
-        return "Матрица не квадратная"
+        raise ValueError("Матрица не квадратная")
 
     for i in range(n):
-        for j in range(n):
-            if j > i:
-                if matrix[i][j] != matrix[j][i]:
-                    return False
+        for j in range(i + 1, n):
+            if matrix[i][j] != matrix[j][i]:
+                return False
 
     return True
 
@@ -33,12 +31,12 @@ def words_index_map(strings: list[str]) -> dict[str, set[int]]:
     """Функция, которая принимает список строк и возвращает словарь, где ключами являются уникальные слова,
      а значениями — множества индексов строк, в которых эти слова встречаются."""
 
-    d = defaultdict(set)
-    for k, v in enumerate(strings):
-        for j in v.split():
-            d[j].add(k)
+    result_dict: dict = defaultdict(set)
+    for key, value in enumerate(strings):
+        for string in value.split():
+            result_dict[string].add(key)
 
-    return dict(d)
+    return dict(result_dict)
 
 
 strings: list[str] = [
@@ -52,12 +50,15 @@ print(words_index_map(strings))
 def clean_file(input_file: str, output_file: str) -> None:
     """Программа, которая читает текстовый файл, удаляет из него все пустые строки и строки,
        состоящие только из пробелов, а затем записывает результат в новый файл."""
-    with open(input_file, 'r', encoding='utf-8') as file1:
-        lst: list[str] = [i.lstrip() for i in file1.readlines()]
-        lst: list[str] = list(filter(lambda x: len(x) > 0, lst))
+    try:
+        with open(input_file, 'r', encoding='utf-8') as file1:
+            lst: list[str] = [i.lstrip() for i in file1.readlines()]
+            lst: list[str] = list(filter(lambda x: len(x) > 0, lst))
 
-    with open(output_file, 'w', encoding='utf-8') as file2:
-        file2.writelines(lst)
+        with open(output_file, 'w', encoding='utf-8') as file2:
+            file2.writelines(lst)
+    except FileNotFoundError:
+        print('Файла не существует')
 
 
 input_file = "input.txt"

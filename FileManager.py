@@ -1,4 +1,4 @@
-"""Контекстный менеджр для работы с файлами."""
+"""Контекстный менеджер для работы с файлами."""
 
 
 import os
@@ -27,10 +27,8 @@ class FileManager:
         """Закрытие файла, и вывод ошибки при ее наличии."""
         if self.file:
             self.file.close()
-        if exc_val:
-            raise Exception(f'ошибка: {exc_val}')
-        else:
-            return True
+        return exc_type is None
+
 
 
 with FileManager("example.txt", "w") as file:

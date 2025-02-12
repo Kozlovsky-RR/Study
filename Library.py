@@ -1,8 +1,6 @@
 """Библиотека для управления коллекцией книг."""
 
 
-from typing import Union
-
 class Book:
     """Класс для создания книги."""
     def __init__(self, title: str, author: str, year: int, genre: str,  pages: int) -> None:
@@ -102,32 +100,35 @@ class Library:
 
     def add_book(self, book) -> None:
         """Добавление книг в библиотеку."""
-        self.bookshelf.append(book)
+        if isinstance(book, Book):
+            self.bookshelf.append(book)
+        else:
+            raise TypeError("Книга должна быть объектом класса Book")
 
-    def search_by_title(self, title: str) -> Union[Book, str]:
+    def search_by_title(self, title: str) -> Book:
         """Поиск книги по названию."""
-        for i in self.bookshelf:
-            if i.title == title:
-                return i
-        return "Книга отсутствует в библиотеки"
+        for book in self.bookshelf:
+            if book.title == title:
+                return book
+        raise ValueError("Книга отсутствует в библиотеки")
 
     def get_books_by_author(self, author: str) -> list[Book]:
         """Список всех книг автора."""
-        return [i for i in self.bookshelf if i.author == author]
+        return [book for book in self.bookshelf if book.author == author]
 
     def get_books_sorted_by_year(self) -> list[Book]:
         """Отсортированый список по году выпуска."""
-        return sorted(self.bookshelf, key=lambda x: x.year)
+        return sorted(self.bookshelf, key=lambda book: book.year)
 
-    def remove_book(self, book: str) -> str:
+    def remove_book(self, book: str) -> None:
         """Удаление книги из библиотеки."""
         if book in self.bookshelf:
             list(self.bookshelf).remove(book)
         else:
-            return "Книга отсутсвует в библиотеки"
+            raise ValueError("Книга отсутствует в библиотеки")
 
     def __len__(self) -> int:
-        """Метод возвращающий количество книг в бибилиотеки."""
+        """Метод возвращающий количество книг в библиотеки."""
         return len(self.bookshelf)
 
     def __repr__(self) -> str:
@@ -136,6 +137,7 @@ class Library:
 
 
 library: Library = Library()
+
 book1: Book = Book("Title1", "Author1", 2001, "Genre1", 300)
 book2: Book = Book("Title2", "Author2", 1999, "Genre2", 150)
 book3: Book = Book("Title3", "Author1", 2010, "Genre3", 400)

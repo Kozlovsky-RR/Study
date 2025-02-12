@@ -1,13 +1,10 @@
-"""Система для управления банковскими счетамим."""
-
-
-from typing import Union
+"""Система для управления банковскими счетами."""
 
 
 class BankAccount:
-    """Класс для cоздание банковского счета и операциями над ним."""
+    """Класс для создания банковского счета и операциями над ним."""
     def __init__(self, number: str, name: str, balance: int) -> None:
-        """Инициализация банковского счета, и проверка что баланс является положителным числом."""
+        """Инициализация банковского счета и проверка, что баланс является положительным числом."""
         self.number: str = number
         self.name: str = name
 
@@ -21,11 +18,10 @@ class BankAccount:
         if value > 0:
             self.balance += value
 
-    def withdraw(self, value: int) -> Union[bool, str]:
+    def withdraw(self, value: int) -> None:
         """Снятие средств со счета."""
         if value > 0 and self.balance - value >= 0:
             self.balance -= value
-            return True
         else:
             raise ValueError('Превышен лимит')
 
@@ -59,7 +55,7 @@ class BankSystem:
         self.accounts: dict = dict()
 
     def add_account(self, account: BankAccount) -> None:
-        """Добаление аккаунта в систему."""
+        """Добавление аккаунта в систему."""
         self.accounts[account.number] = account
 
     def transfer(self, number1: str, number2: str, value: int) -> None:

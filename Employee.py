@@ -1,6 +1,11 @@
 """Система для управления зарплат сотрудников компании."""
 
 
+MULTIPLIER_BONUS_DESIGNER = 2
+MULTIPLIER_BONUS_DEVELOPER = 3
+MULTIPLIER_BONUS_MANAGER = 4
+
+
 class Employee:
     """Класс для создания сотрудников."""
     def __init__(self, name: str, surname: str, post: str, salary: int) -> None:
@@ -14,7 +19,7 @@ class Employee:
             raise TypeError("Зарплата должна быть положительным числом")
 
     def get_bonus(self) -> int:
-        """Метод для вычисление бонуса."""
+        """Метод для вычисления бонуса."""
         return self.salary
 
     def __str__(self) -> str:
@@ -26,24 +31,24 @@ class Manager(Employee):
     """Класс менеджер."""
 
     def get_bonus(self) -> int:
-        """Метод для вычисление бонуса."""
-        return super().get_bonus() * 4
+        """Метод для вычисления бонуса."""
+        return super().get_bonus() * MULTIPLIER_BONUS_MANAGER
 
 
 class Developer(Employee):
     """Класс разработчик."""
 
     def get_bonus(self) -> int:
-        """Метод для вычисление бонуса."""
-        return super().get_bonus() * 3
+        """Метод для вычисления бонуса."""
+        return super().get_bonus() * MULTIPLIER_BONUS_DEVELOPER
 
 
 class Designer(Employee):
     """Класс дизайнер."""
 
     def get_bonus(self) -> int:
-        """Метод для вычисление бонуса."""
-        return super().get_bonus() * 2
+        """Метод для вычисления бонуса."""
+        return super().get_bonus() * MULTIPLIER_BONUS_DESIGNER
 
 
 employees: list[Employee] = [
